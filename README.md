@@ -1,11 +1,13 @@
 # exercicios-kotlin
 Exercícios para implementação de algoritmos utilizando a linguagem de programação Kotlin.
 
-## Boas práticas
+## Requisitos
 
 * Criar um arquivo para cada exercicio
 * Criar um metodo main para cada exercicio no proprio arquivo do exercicio para testar o algoritmo
 * Funções utilitárias genéricas podem ser compartilhadas
+* Validar os valores digitados, se for numero colocar uma mensagem e solicitar novamente o valor
+* Se o usuario quiser sair do programa, basta nao digitar nenhum valor de entrada e dar ENTER
 
 ## Exercicios
 
