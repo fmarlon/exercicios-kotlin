@@ -5,6 +5,8 @@ Exercícios para implementação de algoritmos utilizando a linguagem de program
 
 * Criar um arquivo para cada exercicio
 * Criar um metodo main para cada exercicio no proprio arquivo do exercicio para testar o algoritmo
+* Criar uma função para cada algoritmo, não realizar o calculo do algorimo no metodo main
+* O objetivo metodo main é iniciar o programa, mostrar mensagens e pegar parâmetros do usuário
 * Funções utilitárias genéricas podem ser compartilhadas
 * Validar os valores digitados, se for numero colocar uma mensagem e solicitar novamente o valor
 * Se o usuario quiser sair do programa, basta nao digitar nenhum valor de entrada e dar ENTER
