@@ -1,6 +1,8 @@
 package dev.estudos.kotlin.exercicios
 
 import java.lang.NumberFormatException
+import java.math.BigDecimal
+import java.text.DecimalFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import kotlin.system.exitProcess
@@ -27,4 +29,8 @@ fun readInt(msg: String): Int {
 
 fun LocalDate.formatToBrazil(): String {
     return this.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
+}
+
+fun BigDecimal.formatToBrazil(): String {
+    return DecimalFormat("#,##0.00").format(this)
 }
