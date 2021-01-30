@@ -22,29 +22,37 @@ fun main() {
     val b = readInt("Informe o valor de B: ")
     val c = readInt("Informe o valor de C: ")
 
-    val r = calcularR(a, b)
-    val s = calcularS(b, c)
-
-    val d = calcularD(r, s)
+    val d = Exercicio2.calcularD(a, b, c)
 
     println("""
         
         -----------------------------
-        R = $r | S = $s
         D = $d
         -----------------------------
         
     """.trimIndent())
 }
 
-fun calcularD(r: Int, s: Int): Int {
-    return (r + s) / 2
-}
+object Exercicio2 {
 
-fun calcularR(a: Int, b: Int): Int {
-    return (a + b).toDouble().pow(2).toInt()
-}
+    fun calcularD(a: Int, b: Int, c: Int): Int {
+        val r = calcularR(a, b)
+        val s = calcularS(b, c)
+        val d = calcularD(r, s)
 
-fun calcularS(b: Int, c: Int): Int {
-    return (b + c).toDouble().pow(2).toInt()
+        return d
+    }
+
+    fun calcularD(r: Int, s: Int): Int {
+        return (r + s) / 2
+    }
+
+    fun calcularR(a: Int, b: Int): Int {
+        return (a + b).toDouble().pow(2).toInt()
+    }
+
+    fun calcularS(b: Int, c: Int): Int {
+        return (b + c).toDouble().pow(2).toInt()
+    }
+
 }

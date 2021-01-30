@@ -1,11 +1,9 @@
 package dev.estudos.kotlin.exercicios
 
 import java.time.LocalDate
-import java.time.Period
-import java.time.chrono.ChronoPeriod
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
-import kotlin.time.days
+import kotlin.system.exitProcess
 
 /**
   Faça um algoritmo que leia a data de nascimento de uma pessoa expressa no formato (DD/MM/AAAA),
@@ -22,33 +20,55 @@ fun main() {
 
     val localDate = LocalDate.parse(dataDigitada, DateTimeFormatter.ofPattern("dd/MM/yyyy"))
 
-    val totalDias = calcularDias(localDate)
+    val calculadoraDeDias : CalculadoraDeDias
 
-    val totalDiasChonoUnit = calcularDiasComChronoUnit(localDate)
+    print("Forma de cálculo (R: Rudimentar, A: Apurada (Padrão) - considera ano bisexto): ")
+    calculadoraDeDias = when(readLine()) {
+        "R" -> CalculadoraDiasRudimentar
+        "A", "" -> CalculadoraDiasApurada
+        else -> {
+            println("Tipo de Cálculo Inválido. O programa será encerrado")
+            exitProcess(0)
+        }
+    }
+
+    val totalDias = calculadoraDeDias.calcular(localDate)
 
     println("""
         ------------------------------
-        Total de Dias (Padrão): $totalDias
+        Tipo Calculo: ${calculadoraDeDias.javaClass.simpleName}
         ------------------------------
-        Total de Dias (ChonoUnit): $totalDiasChonoUnit
+        Total de Dias: $totalDias
     """.trimIndent())
 }
 
-fun calcularDias(date: LocalDate): Int {
-    // diasTotal = date.days + (date.month * 30) + ((currentYear - date.year) * 365)
-    // Exemplo: 10/05/1990
-    // diasTotal = 10 + (5 * 30) + ((2021 - 1990) * 365)
+interface CalculadoraDeDias {
 
-    val currentYear = LocalDate.now().year
-    val diasTotal = date.dayOfMonth + (date.monthValue * 30) + (currentYear - date.year) * 365
+    fun calcular(date: LocalDate): Int
 
-    return diasTotal
 }
 
-fun calcularDiasComChronoUnit(date: LocalDate): Int {
-    val period = Period.between(date, LocalDate.now())
+object CalculadoraDiasRudimentar: CalculadoraDeDias {
 
-    val chronoUnit = ChronoUnit.DAYS.between(date, LocalDate.now())
+    override fun calcular(date: LocalDate): Int {
+        // diasTotal = date.days + (date.month * 30) + ((currentYear - date.year) * 365)
+        // Exemplo: 10/05/1990
+        // diasTotal = 10 + (5 * 30) + ((2021 - 1990) * 365)
 
-    return chronoUnit.toInt()
+        val currentYear = LocalDate.now().year
+        val diasTotal = date.dayOfMonth + (date.monthValue * 30) + (currentYear - date.year) * 365
+
+        return diasTotal
+    }
+
+}
+
+object CalculadoraDiasApurada: CalculadoraDeDias {
+
+    override fun calcular(date: LocalDate): Int {
+        val chronoUnit = ChronoUnit.DAYS.between(date, LocalDate.now())
+
+        return chronoUnit.toInt()
+    }
+
 }
