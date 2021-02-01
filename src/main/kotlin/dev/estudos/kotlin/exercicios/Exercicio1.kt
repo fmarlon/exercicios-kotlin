@@ -1,6 +1,7 @@
 package dev.estudos.kotlin.exercicios
 
 import java.lang.NumberFormatException
+import java.math.RoundingMode
 import kotlin.math.pow
 import kotlin.math.sqrt
 import kotlin.system.exitProcess
@@ -39,13 +40,13 @@ fun main() {
 
 object Exercicio1 {
 
-    fun calcularDistancia(p1: Ponto, p2: Ponto): Int {
+    fun calcularDistancia(p1: Ponto, p2: Ponto): Double {
         val x2MenosX1 = (p2.x - p1.x).toDouble()
         val y2MenosY1 = (p2.y - p1.y).toDouble()
 
         val distancia = sqrt(x2MenosX1.pow(2) + y2MenosY1.pow(2))
 
-        return distancia.toInt()
+        return distancia.toBigDecimal().setScale(2, RoundingMode.HALF_EVEN).toDouble()
     }
 
     class Ponto ( val x: Int, val y: Int )
