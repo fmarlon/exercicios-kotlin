@@ -5,38 +5,23 @@ import java.math.BigDecimal
 import java.math.RoundingMode
 
 fun main() {
-    val totalMensalidade = alunos
-        .map { it.valorMensalidade }
-        .reduce { acc, valorMensalidade -> acc + valorMensalidade }
 
-    println("Total Mensalidade: ${totalMensalidade.formatToBrazil()} ")
+    val calculadora = CalculadoraLucroLiquido()
 
-    // Previsao Lucro Liquido = Total Mensalidade - Imposto para o Estado
-    // Imposto para o Estado = Valor Mensalidade * Aliquota do Imposto
+    calculadora.calcularPrevisaoLucroLiquido()
 
     println("_______________________________________________________")
     println("Calculando imposto por Estado:")
 
-    val impostoPorEstado = alunos
-        .map { UFImposto(it.uf, it.valorMensalidade) }
-        .groupBy { it.uf }
-        .entries.map {
-            // converte {key: SP, [ {valorImposto: ...}, {valorImposto: ...} ]}
-            UFImposto(it.key, it.value.map { it.valorMensalidade }.reduce{ acc, valorImposto -> acc + valorImposto })
-        }
-        .map(::calcularImposto)
-
-    println(impostoPorEstado.joinToString("\n") {
+    println(calculadora.impostoPorEstado.joinToString("\n") {
         " - UF: ${it.uf} | Mensalidade: ${it.valorMensalidade.formatToBrazil()} | Aliquota: ${it.aliquotaImposto.formatToBrazil()} | Imposto: ${it.valorImposto.formatToBrazil()}"
     })
 
-    val totalImposto = impostoPorEstado.map { it.valorImposto }.reduce{ acc, valor -> acc + valor }
-    val totalAliquota = impostoPorEstado.map { it.aliquotaImposto }.reduce{ acc, valor -> acc + valor }
-    val aliquotaMedia = totalAliquota.divide(alunos.size.toBigDecimal(), 4, RoundingMode.HALF_EVEN)
-
     println("_______________________________________________________")
-    println("Total Imposto: ${totalImposto.formatToBrazil()} ")
-    println("Alíquota Média: ${aliquotaMedia.formatToBrazil()} ")
+    println("Total Mensalidade: ${calculadora.totalMensalidade.formatToBrazil()} ")
+    println("Total Imposto: ${calculadora.totalImposto.formatToBrazil()} ")
+    println("Alíquota Média: ${calculadora.aliquotaMedia.formatToBrazil()} ")
+    println("Previsão do Lucro Liquido: ${calculadora.previsaoLucro.formatToBrazil()} ")
 }
 
 class UFImposto(
@@ -46,11 +31,59 @@ class UFImposto(
     var valorImposto: BigDecimal = BigDecimal.ZERO
 )
 
-fun calcularImposto(ufImposto: UFImposto): UFImposto {
-    val estado = estados.find { estado -> estado.uf == ufImposto.uf } ?: estados.find { it.uf == "XX" }!!
+class  CalculadoraLucroLiquido {
 
-    ufImposto.aliquotaImposto = estado.aliquotaImposto
-    ufImposto.valorImposto = (ufImposto.valorMensalidade * ufImposto.aliquotaImposto).movePointLeft(2)
+    var totalMensalidade : BigDecimal = BigDecimal.ZERO
+    var impostoPorEstado : List<UFImposto> = listOf()
+    var aliquotaMedia : BigDecimal = BigDecimal.ZERO
+    var totalImposto: BigDecimal = BigDecimal.ZERO
+    var totalAliquota: BigDecimal = BigDecimal.ZERO
+    var previsaoLucro: BigDecimal = BigDecimal.ZERO
 
-    return ufImposto
+    // Previsao Lucro Liquido = Total Mensalidade - Imposto para o Estado
+    fun calcularPrevisaoLucroLiquido(): BigDecimal {
+        totalMensalidade = calcularTotalMensalidade()
+        impostoPorEstado = calcularImpostosPorEstado()
+
+        totalImposto = impostoPorEstado.map { it.valorImposto }.reduce { acc, valor -> acc + valor }.setScale(2, RoundingMode.HALF_EVEN)
+        totalAliquota = impostoPorEstado.map { it.aliquotaImposto }.reduce { acc, valor -> acc + valor }.setScale(2, RoundingMode.HALF_EVEN)
+
+        aliquotaMedia = totalAliquota.divide(impostoPorEstado.size.toBigDecimal(), 4, RoundingMode.HALF_EVEN).setScale(2, RoundingMode.HALF_EVEN)
+
+        previsaoLucro = (totalMensalidade - totalImposto).setScale(2, RoundingMode.HALF_EVEN)
+
+        return previsaoLucro
+    }
+
+    fun calcularTotalMensalidade(): BigDecimal {
+        val totalMensalidade = alunos
+            .map { it.valorMensalidade }
+            .reduce { acc, valorMensalidade -> acc + valorMensalidade }
+
+        return totalMensalidade
+    }
+
+    // Imposto para o Estado = Valor Mensalidade * Aliquota do Imposto
+    fun calcularImpostosPorEstado(): List<UFImposto> {
+        val impostoPorEstado = alunos
+            .map { UFImposto(it.uf, it.valorMensalidade) }
+            .groupBy { it.uf }
+            .map { (key, value) ->
+                // converte {key: SP, [ {valorImposto: ...}, {valorImposto: ...} ]}
+                UFImposto(key, value.map { it.valorMensalidade }.reduce { acc, valorImposto -> acc + valorImposto })
+            }
+            .map(::calcularImposto)
+
+        return impostoPorEstado
+    }
+
+    fun calcularImposto(ufImposto: UFImposto): UFImposto {
+        val estado = estados.find { estado -> estado.uf == ufImposto.uf } ?: estados.find { it.uf == "XX" }!!
+
+        ufImposto.aliquotaImposto = estado.aliquotaImposto
+        ufImposto.valorImposto = (ufImposto.valorMensalidade * ufImposto.aliquotaImposto).movePointLeft(2)
+
+        return ufImposto
+    }
+
 }
