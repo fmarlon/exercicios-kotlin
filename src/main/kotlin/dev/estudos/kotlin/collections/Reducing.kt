@@ -1,6 +1,7 @@
 package dev.estudos.kotlin.collections
 
 import dev.estudos.kotlin.exercicios.formatToBrazil
+import dev.estudos.kotlin.exercicios.sumByBigDecimal
 import java.math.BigDecimal
 import java.math.RoundingMode
 
@@ -45,10 +46,10 @@ class  CalculadoraLucroLiquido {
         totalMensalidade = calcularTotalMensalidade()
         impostoPorEstado = calcularImpostosPorEstado()
 
-        totalImposto = impostoPorEstado.map { it.valorImposto }.reduce { acc, valor -> acc + valor }.setScale(2, RoundingMode.HALF_EVEN)
-        totalAliquota = impostoPorEstado.map { it.aliquotaImposto }.reduce { acc, valor -> acc + valor }.setScale(2, RoundingMode.HALF_EVEN)
+        totalImposto = impostoPorEstado.sumByBigDecimal { it.valorImposto }.setScale(2, RoundingMode.HALF_EVEN)
+        totalAliquota = impostoPorEstado.sumByBigDecimal { it.aliquotaImposto }.setScale(2, RoundingMode.HALF_EVEN)
 
-        aliquotaMedia = totalAliquota.divide(impostoPorEstado.size.toBigDecimal(), 4, RoundingMode.HALF_EVEN).setScale(2, RoundingMode.HALF_EVEN)
+        aliquotaMedia = totalAliquota.divide(impostoPorEstado.size.toBigDecimal(), 2, RoundingMode.HALF_EVEN)
 
         previsaoLucro = (totalMensalidade - totalImposto).setScale(2, RoundingMode.HALF_EVEN)
 
@@ -56,9 +57,7 @@ class  CalculadoraLucroLiquido {
     }
 
     fun calcularTotalMensalidade(): BigDecimal {
-        val totalMensalidade = alunos
-            .map { it.valorMensalidade }
-            .reduce { acc, valorMensalidade -> acc + valorMensalidade }
+        val totalMensalidade = alunos.sumByBigDecimal { it.valorMensalidade }
 
         return totalMensalidade
     }
@@ -72,7 +71,7 @@ class  CalculadoraLucroLiquido {
                 // converte {key: SP, [ {valorImposto: ...}, {valorImposto: ...} ]}
                 UFImposto(key, value.map { it.valorMensalidade }.reduce { acc, valorImposto -> acc + valorImposto })
             }
-            .map(::calcularImposto)
+            .map { calcularImposto(it) }
 
         return impostoPorEstado
     }

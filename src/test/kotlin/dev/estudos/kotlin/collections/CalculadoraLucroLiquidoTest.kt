@@ -18,9 +18,11 @@ internal class CalculadoraLucroLiquidoTest {
 
         val lucroLiquido = calculadora.calcularPrevisaoLucroLiquido()
 
-        assertEquals("2164.59".toBigDecimal(), lucroLiquido, "Lucro liquido")
-        assertEquals("2225.00".toBigDecimal(), calculadora.totalMensalidade, "Total Mensalidade")
-        assertEquals("60.41".toBigDecimal(), calculadora.totalImposto, "Total Imposto")
-        assertEquals("2.79".toBigDecimal(), calculadora.aliquotaMedia, "Aliquota Media")
+        assertAll("valores calculados",
+            { assertEquals("2164.59".toBigDecimal(), lucroLiquido, "Lucro liquido") },
+            { assertEquals("2225.00".toBigDecimal(), calculadora.totalMensalidade, "Total Mensalidade") },
+            { assertEquals("60.41".toBigDecimal(), calculadora.totalImposto, "Total Imposto") },
+            { assertEquals("2.79".toBigDecimal(), calculadora.aliquotaMedia, "Aliquota Media") }
+        )
     }
 }

@@ -35,7 +35,7 @@ fun BigDecimal.formatToBrazil(): String {
     return DecimalFormat("#,##0.00").format(this)
 }
 
-public inline fun <T> Iterable<T>.sumBy(selector: (T) -> BigDecimal): BigDecimal {
+public inline fun <T> Iterable<T>.sumByBigDecimal(selector: (T) -> BigDecimal): BigDecimal {
     var sum: BigDecimal = BigDecimal.ZERO
     for (element in this) {
         sum += selector(element)
