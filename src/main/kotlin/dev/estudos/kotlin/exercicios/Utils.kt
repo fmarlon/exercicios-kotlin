@@ -42,3 +42,7 @@ public inline fun <T> Iterable<T>.sumByBigDecimal(selector: (T) -> BigDecimal): 
     }
     return sum
 }
+
+public operator fun BigDecimal.compareTo(other: Int) = this.compareTo(other.toBigDecimal())
+public operator fun BigDecimal.compareTo(other: Double) = this.compareTo(other.toBigDecimal())
+

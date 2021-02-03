@@ -23,6 +23,7 @@ val cursos : List<Curso> = listOf(
         ".NET",
         listOf(
             Disciplina("C#", 30),
+            Disciplina("Orientação a Objetos", 60),
             Disciplina("Visual Studio", 50)
         )
     ),
