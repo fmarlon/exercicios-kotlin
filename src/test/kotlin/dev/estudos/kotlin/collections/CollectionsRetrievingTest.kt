@@ -4,7 +4,30 @@ import org.junit.jupiter.api.Test
 import dev.estudos.kotlin.exercicios.compareTo
 import java.math.BigDecimal
 
+class AlunoRepository {
+
+    fun getByName(name: String): Aluno? {
+        return alunos.find { it.nome == name }
+    }
+
+    fun searchBy(filtroDeBusca: (aluno: Aluno) -> Boolean): List<Aluno> {
+        val resultado = alunos.filter { filtroDeBusca.invoke(it) }
+
+        return resultado
+    }
+
+}
+
 class CollectionsRetrievingTest {
+
+    @Test
+    fun chamarOutraFuncaoComoParametro() {
+        val alunoRepository = AlunoRepository()
+
+        val resultado = alunoRepository.searchBy { aluno -> aluno.valorMensalidade <= 150.00 }
+
+        println(resultado.joinToString("\n"))
+    }
 
     @Test
     fun retrieveFirstItems() {
