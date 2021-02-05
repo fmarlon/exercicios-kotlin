@@ -1,8 +1,11 @@
 package dev.estudos.kotlin.pessoas
 
 import dev.estudos.kotlin.exercicios.isNumber
+import org.slf4j.LoggerFactory
 
 class PessoaRepository {
+
+    val logging = LoggerFactory.getLogger(PessoaRepository::class.java)
 
     val lista = mutableListOf<Pessoa>()
     var lastId : Int = 0
@@ -41,41 +44,8 @@ class PessoaRepository {
         return true
     }
 
-    /**
-     * Deve ter pelo menos duas palavras
-     * Deve ter pelo menos uma palavra com mais de 2 letras
-     * Só aceitar alguma palavra com uma letra se o nome tiver mais de 2 palavras
-     * A primeira palavra deve ter mais de uma letra e iniciar maiuscula
-     * Palavras com mais de duas letras devem iniciar com maiuscula
-     */
     fun validarNome(nome: String): Boolean {
-        val palavras = nome.split(" ")
-
-        // Deve ter pelo menos duas palavras
-        if (palavras.size < 2) {
-            return false
-        }
-
-        // Deve ter pelo menos uma palavra com mais de 2 letras
-        if (palavras.any { it.length > 2 }) {
-            return true
-        }
-
-        // Só aceitar alguma palavra com uma letra se o nome tiver mais de 2 palavras
-        if (palavras.any { it.length == 1 }) {
-            if (palavras.size > 2) {
-                return true
-            }
-        }
-
-        // A primeira palavra deve ter mais de uma letra e iniciar maiuscula
-        val primeiraPalavra = palavras[0]
-        if (primeiraPalavra.length > 0 && primeiraPalavra[0].isUpperCase()) {
-            return true
-        }
-
-        return true
+        return ValidadorNome.validar(nome)
     }
-
 
 }
