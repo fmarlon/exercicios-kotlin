@@ -3,7 +3,7 @@ package dev.estudos.kotlin.pessoas
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
-internal class PessoaRepositoryTest {
+internal class ValidacaoCpfTest {
 
     val repository = PessoaRepository()
 
