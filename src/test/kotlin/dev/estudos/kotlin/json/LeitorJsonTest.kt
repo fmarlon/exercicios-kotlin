@@ -5,14 +5,17 @@ import com.google.gson.JsonObject
 import org.junit.jupiter.api.Test
 
 import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.parallel.Execution
+import org.junit.jupiter.api.parallel.ExecutionMode
 
+@Execution(ExecutionMode.CONCURRENT)
 internal class LeitorJsonTest {
 
     @Test
     fun readArray() {
         val leitor = LeitorJson()
 
-        val jsonArray: JsonArray = leitor.readArray("/pessoas.json")
+        val jsonArray = leitor.readArray("/pessoas.json")
 
         assertEquals(2, jsonArray.size())
     }
@@ -21,7 +24,7 @@ internal class LeitorJsonTest {
     fun readObject() {
         val leitor = LeitorJson()
 
-        val jsonObj: JsonObject = leitor.readObject("/configuracao.json")
+        val jsonObj = leitor.readObject("/configuracao.json")
 
         assertNotNull(jsonObj)
         assertEquals("192.168.1.100", jsonObj.get("host").asString)

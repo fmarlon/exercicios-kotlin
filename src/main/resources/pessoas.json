@@ -8,13 +8,15 @@
     "telefone": "11 98865-3132",
     "peso": 65,
     "altura": 1.69,
+    "salario": null,
     "endereco": {
       "logradouro": "Rua 1, Qd B",
       "numero": "Casa 10",
       "bairro": "Cohama",
       "cidade": "São Luis",
       "uf": "MA"
-    }
+    },
+    "ativo": false
   },
   {
     "id": 2,
@@ -31,6 +33,7 @@
       "bairro": "Jaguare",
       "cidade": "São Paulo",
       "uf": "SP"
-    }
+    },
+    "ativo": true
   }
 ]
