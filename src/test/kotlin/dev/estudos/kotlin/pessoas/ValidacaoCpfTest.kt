@@ -9,7 +9,10 @@ internal class ValidacaoCpfTest {
 
     @Test
     fun adicionarPessoaComCpfInvalido() {
-        val pessoa = Pessoa(1, "Teste", "11111")
+        val pessoa = Pessoa().apply {
+            nome = "Teste"
+            cpf = "11111"
+        }
 
         assertThrows( ValidationException::class.java,
             { repository.add(pessoa) }
@@ -18,7 +21,10 @@ internal class ValidacaoCpfTest {
 
     @Test
     fun adicionarPessoaComCpfComLetras() {
-        val pessoa = Pessoa(1, "Teste", "123456789AA")
+        val pessoa = Pessoa().apply {
+            nome = "Teste"
+            cpf = "123456789AA"
+        }
 
         assertThrows( ValidationException::class.java,
             { repository.add(pessoa) }
@@ -27,7 +33,10 @@ internal class ValidacaoCpfTest {
 
     @Test
     fun adicionarPessoaComCpfValidoComMascaraDeveAceitar() {
-        val pessoa = Pessoa(nome= "Teste de Cpf Valido Com Mascara", cpf = "656.512.273-34")
+        val pessoa = Pessoa().apply {
+            nome= "Teste de Cpf Valido Com Mascara"
+            cpf = "656.512.273-34"
+        }
 
         val id = repository.add(pessoa)
 
@@ -40,7 +49,10 @@ internal class ValidacaoCpfTest {
 
     @Test
     fun adicionarPessoaComCpfValidoComMascaraInvalidaDeveDarErro() {
-        val pessoa = Pessoa(nome= "Teste de Cpf Valido Com Mascara", cpf = "65.6.512-27334")
+        val pessoa = Pessoa().apply {
+            nome = "Teste de Cpf Valido Com Mascara"
+            cpf = "65.6.512-27334"
+        }
 
         assertThrows( ValidationException::class.java,
             { repository.add(pessoa) }
@@ -49,7 +61,10 @@ internal class ValidacaoCpfTest {
 
     @Test
     fun adicionarPessoaComCpfValidoDeveAdicionarComSucesso() {
-        val pessoa = Pessoa(nome = "Teste", cpf = "65651227334")
+        val pessoa = Pessoa().apply {
+            nome = "Teste Teste"
+            cpf = "65651227334"
+        }
 
         val idPessoa = repository.add(pessoa)
 
@@ -57,7 +72,7 @@ internal class ValidacaoCpfTest {
 
         assertNotNull(pessoaAdicinada)
         assertEquals(1, pessoaAdicinada?.id)
-        assertEquals("Teste", pessoaAdicinada?.nome)
+        assertEquals("Teste Teste", pessoaAdicinada?.nome)
         assertEquals("65651227334", pessoaAdicinada?.cpf)
     }
 

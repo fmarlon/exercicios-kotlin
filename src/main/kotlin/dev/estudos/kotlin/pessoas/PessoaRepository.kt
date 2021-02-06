@@ -20,7 +20,8 @@ class PessoaRepository {
         }
 
         val newId = ++lastId
-        val pessoaIncluida = pessoa.copy(id = newId)
+        pessoa.id = newId
+        val pessoaIncluida = pessoa
         lista.add(pessoaIncluida)
         return newId
     }
