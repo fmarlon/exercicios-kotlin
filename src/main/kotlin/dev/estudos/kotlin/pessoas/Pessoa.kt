@@ -12,6 +12,7 @@ data class Pessoa (var id: Int? = null) {
     var altura: BigDecimal? = null
     var peso: BigDecimal? = null
     var telefone : String = ""
+    var endereco : Endereco = Endereco()
 
     // Formula: IMC = PESO / ALTURA²
     fun calcularIMC(): BigDecimal {
@@ -22,6 +23,10 @@ data class Pessoa (var id: Int? = null) {
             throw IllegalStateException("Altura da pessoa indisponível")
         }
         return peso?.setScale(2)!!.divide(altura!!.pow(2), 2, RoundingMode.HALF_EVEN)
+    }
+
+    override fun toString(): String {
+        return "Pessoa(id=$id, nome=$nome, cpf=$cpf)"
     }
 
 }

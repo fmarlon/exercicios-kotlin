@@ -1,0 +1,36 @@
+[
+  {
+    "id": 1,
+    "nome": "Frank Santos",
+    "cpf": "65651227334",
+    "rg": "12315662",
+    "dataNascimento": "1984-04-20",
+    "telefone": "11 98865-3132",
+    "peso": 65,
+    "altura": 1.69,
+    "endereco": {
+      "logradouro": "Rua 1, Qd B",
+      "numero": "Casa 10",
+      "bairro": "Cohama",
+      "cidade": "São Luis",
+      "uf": "MA"
+    }
+  },
+  {
+    "id": 2,
+    "nome": "Nicolas Caldas",
+    "cpf": "4556322556",
+    "rg": "566522",
+    "dataNascimento": "2017-06-21",
+    "telefone": "98 98865-3520",
+    "peso": 17,
+    "altura": 0.58,
+    "endereco": {
+      "logradouro": "Av Mar Mario Guedes",
+      "numero": "40",
+      "bairro": "Jaguare",
+      "cidade": "São Paulo",
+      "uf": "SP"
+    }
+  }
+]

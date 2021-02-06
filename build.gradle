@@ -11,8 +11,9 @@ repositories {
 
 dependencies {
     implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.30'
-    testImplementation group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.30'
+    implementation 'com.google.code.gson:gson:2.8.6'
 
+    testImplementation group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.30'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
     testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
     testImplementation 'org.junit.jupiter:junit-jupiter-params:5.7.0'
